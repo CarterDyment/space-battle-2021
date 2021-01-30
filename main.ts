@@ -55,6 +55,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.pewPew.play()
     projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -86,6 +87,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     info.changeLifeBy(-1)
     otherSprite.destroy()
 })
+let evil_shoot: Sprite = null
 let evilBros: Sprite = null
 let projectile: Sprite = null
 let unlock = false
@@ -115,7 +117,7 @@ ship.setPosition(10, 60)
 controller.moveSprite(ship, 100, 100)
 ship.setFlag(SpriteFlag.StayInScreen, true)
 info.setLife(3)
-info.setScore(0)
+info.setScore(25)
 game.onUpdateInterval(500, function () {
     evilBros = sprites.create(img`
         . . f f f f f f f f f . . . . . 
@@ -138,4 +140,26 @@ game.onUpdateInterval(500, function () {
     evilBros.setPosition(150, randint(10, 100))
     evilBros.setVelocity(-70, 0)
     evilBros.setFlag(SpriteFlag.AutoDestroy, true)
+    if (info.score() >= 25) {
+        evil_shoot = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            2 2 5 5 4 2 2 5 4 4 2 2 5 5 4 4 
+            5 2 2 4 4 5 2 4 4 5 5 2 2 4 4 5 
+            5 5 4 4 5 5 4 4 2 5 5 5 4 4 5 5 
+            5 4 4 2 2 4 4 5 2 2 5 4 4 2 2 5 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Enemy)
+        evil_shoot.setPosition(evilBros.x - 11, evilBros.y)
+        evil_shoot.setVelocity(-250, 0)
+    }
 })
