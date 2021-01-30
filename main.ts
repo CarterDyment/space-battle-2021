@@ -1,5 +1,5 @@
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (info.score() > 0 && unlock == true) {
+    if (unlock == true) {
         projectile = sprites.createProjectileFromSprite(img`
             ................
             ...2555555552...
@@ -52,10 +52,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             ................
             ................
             `, ship, 75, 0)
-        info.changeScoreBy(-5)
-        if (info.score() < 0){
-         info.setScore(0)   
-        }
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -80,7 +76,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     info.changeScoreBy(1)
-    if (info.score() >= 50) {
+    if (info.score() >= easy_change) {
         unlock = true
     }
     otherSprite.destroy()
@@ -90,10 +86,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     info.changeLifeBy(-1)
     otherSprite.destroy()
 })
-let unlock = false
 let evilBros: Sprite = null
 let projectile: Sprite = null
+let unlock = false
 let ship: Sprite = null
+let easy_change = 0
+easy_change = 100
 ship = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
