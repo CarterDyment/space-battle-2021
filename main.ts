@@ -1,5 +1,6 @@
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (unlock == true) {
+        music.pewPew.play()
         projectile = sprites.createProjectileFromSprite(img`
             ................
             ...2555555552...
@@ -77,7 +78,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     info.changeScoreBy(1)
-    if (info.score() >= easy_change) {
+    if (info.score() > easy_change || info.score() == easy_change) {
         unlock = true
     }
     otherSprite.destroy()
@@ -117,7 +118,7 @@ ship.setPosition(10, 60)
 controller.moveSprite(ship, 100, 100)
 ship.setFlag(SpriteFlag.StayInScreen, true)
 info.setLife(3)
-info.setScore(25)
+info.setScore(100)
 game.onUpdateInterval(500, function () {
     evilBros = sprites.create(img`
         . . f f f f f f f f f . . . . . 
